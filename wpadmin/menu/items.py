@@ -117,7 +117,7 @@ class AppList(AppListElementMixin, MenuItem):
             app_label = model._meta.app_label
             if app_label not in apps:
                 apps[app_label] = {
-                    'title': capfirst(_(app_label.title())),
+                    'title':model._meta.app_config.verbose_name,
                     'url': self._get_admin_app_list_url(model, context),
                     'models': []
                 }

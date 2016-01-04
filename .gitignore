@@ -7,3 +7,4 @@ dist/*
 django_wpadmin.egg-info/*
 docs/_build/*
 test_project/files/*
+.DS_Store

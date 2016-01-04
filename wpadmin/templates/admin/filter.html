@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="filter">
-  <h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+  <span class="label label-success" style="float:left; font-size: 13px">{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</span>
   <ul>
   {% for choice in choices %}
     <li{% if choice.selected %} class="selected"{% endif %}>

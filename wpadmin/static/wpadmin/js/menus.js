@@ -132,7 +132,7 @@
 		);
 
 		// top submenus should stay on page
-		$('#adminbar .wp-has-submenu').hover(
+		$('#adminbar .wp-has-submenu').click(
 			function() {
 				var $submenu = $(this).children('.wp-submenu').css({'visibility': 'hidden', 'display': 'block'}),
 					extra_margin = 0,
