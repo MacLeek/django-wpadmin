@@ -113,7 +113,7 @@ class AppListElementMixin(object):
         Returns the admin change url.
         """
         app_label = model._meta.app_label
-        return reverse('%s:app_list' % get_admin_site_name(context),
+        return reverse('admin:app_list',
                        args=(app_label,))
 
     def _get_admin_change_url(self, model, context):
@@ -121,7 +121,7 @@ class AppListElementMixin(object):
         Returns the admin change url.
         """
         app_label = model._meta.app_label
-        return reverse('%s:%s_%s_changelist' % (get_admin_site_name(context),
+        return reverse('admin:%s_%s_changelist' % (
                                                 app_label,
                                                 model.__name__.lower()))
 
@@ -130,10 +130,9 @@ class AppListElementMixin(object):
         Returns the admin add url.
         """
         app_label = model._meta.app_label
-        return reverse('%s:%s_%s_add' % (get_admin_site_name(context),
+        return reverse('admin:%s_%s_add' % (
                                          app_label,
                                          model.__name__.lower()))
 
     def is_empty(self):
         return len(self.children) == 0
-
