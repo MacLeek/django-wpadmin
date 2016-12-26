@@ -55,6 +55,14 @@
 <script type="text/javascript" src="{% static "wpadmin/js/lib/jquery.cookie.min.js" %}"></script>
 <script type="text/javascript" src="{% static "wpadmin/js/menus.js" %}"></script>
 <script type="text/javascript" src="{% static "wpadmin/js/content.js" %}"></script>
+    {% if messages %}
+    <!-- 先引入 Vue -->
+    <script src="{% static "js/vue.min.js" %}"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    {% endif %}
 {% block wpadmin_extrahead %}{% endblock %}
 {# WP Admin end #}
 {% block blockbots %}<meta name="robots" content="NONE,NOARCHIVE" />{% endblock %}
@@ -89,6 +97,44 @@
 
 		{% block messages %}
 			{% if messages %}
+        <script>
+            var Main = {
+                delimiters: ['${', '}$'],
+                data() {
+                },
+                methods: {
+                    notify(msg_type, msg) {
+                        if(msg_type.includes('error') ){
+                            this.$notify.error({
+                            title: '错误',
+                            message: msg,
+                            duration: 0,
+                            offset: 20
+                        });
+                        } else if(msg_type.includes('warning') ){
+                            this.$notify.warning({
+                            title: '警告',
+                            message: msg,
+                            duration: 0,
+                            offset: 20
+                        });
+                        }else {
+                            this.$notify.info({
+                            title: '提示',
+                            message: msg,
+                            offset: 20
+                        });
+                        }
+
+                    }
+                }
+            }
+            var Ctor = Vue.extend(Main);
+            var vue_app = new Ctor();
+            {% for message in messages %}
+            vue_app.notify("{{ message.tags }}", "{{ message|escapejs }}");
+            {% endfor %}
+        </script>
 				<ul class="messagelist">
 					{% for message in messages %}
 						<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
