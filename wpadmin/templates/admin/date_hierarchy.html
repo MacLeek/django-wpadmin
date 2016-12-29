@@ -1,7 +1,55 @@
 {% if show %}
+{% load admin_static %}
+    <script type="text/javascript"
+            src="{% static "js/bootstrap-datepicker.js" %}"></script>
+    <script type="text/javascript"
+            src="{% static "js/bootstrap-datepicker.zh-CN.js" %}"></script>
+<link id="bsdp-css" href="{% static "css/datepicker3.min.css" %}" rel="stylesheet">
 <ul class="nav nav-pills" style="padding-left:0;margin-left:0;">
-{% if back %}<li class="date-back active"><a href="{{ back.link }}" style="color:white">&lsaquo; {{ back.title }}</a></li>{% endif %}
-{% for choice in choices %}
+<!--{% if back %}<li class="date-back active"><a href="{{ back.link }}" style="color:white">&lsaquo; {{ back.title }}</a></li>{% endif %}-->
+    <div style="    width: 10%;
+    float: left;" class="input-group date"><input type="text" id="date_hierarchy" readonly="readonly" class="form-control"><span class="input-group-addon"><i
+        class="glyphicon glyphicon-th"></i></span></div>
+
+    <script>
+        (function ($) {
+            function updateQueryStringParameter(uri, key, value) {
+              var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+              var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+              if (uri.match(re)) {
+                return uri.replace(re, '$1' + key + "=" + value + '$2');
+              }
+              else {
+                return uri + separator + key + "=" + value;
+              }
+            }
+            var url = '{{ back.link|safe }}';
+            var prefix = '{{ choices.0.link|safe }}'.match('[?&]([^?&]*?)__year=');
+            if (prefix){
+                prefix = prefix[1]
+            } else {
+                prefix = '{{ back.link|safe }}'.match('[?&]([^?&]*?)__year=')[1];
+            }
+            $('#date_hierarchy').datepicker({
+                format: 'yyyy-mm-dd',
+                language: "zh-CN",
+                orientation: "top auto",
+                autoclose: true,
+                todayBtn: true,
+                todayHighlight: true,
+            }).on('changeDate', function(data){
+                url = updateQueryStringParameter(url, prefix+'__month', data.date.getMonth()+1);
+                url = updateQueryStringParameter(url, prefix+'__year', data.date.getFullYear());
+                url = updateQueryStringParameter(url, prefix+'__day', data.date.getDate());
+                location.href = url;
+            }).on('changeMonth', function(data){
+                url = updateQueryStringParameter(url, prefix+'__month', data.date.getMonth()+1);
+                location.href = url;
+                $("#date_hierarchy").datepicker('hide');
+            });
+        })(jQuery);
+    </script>
+    {% for choice in choices %}
     <li><a href="{% if choice.link %}{{ choice.link }}{% else %}#{% endif %}">{{ choice.title }}</a></li>
 {% endfor %}
 </ul>
