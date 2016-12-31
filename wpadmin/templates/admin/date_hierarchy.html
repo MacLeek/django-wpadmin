@@ -44,6 +44,7 @@
                 location.href = url;
             }).on('changeMonth', function(data){
                 url = updateQueryStringParameter(url, prefix+'__month', data.date.getMonth()+1);
+                url = updateQueryStringParameter(url, prefix+'__year', data.date.getFullYear());
                 location.href = url;
                 $("#date_hierarchy").datepicker('hide');
             });
