@@ -7,8 +7,8 @@
 <link id="bsdp-css" href="{% static "css/datepicker3.min.css" %}" rel="stylesheet">
 <ul class="nav nav-pills" style="padding-left:0;margin-left:0;">
 <!--{% if back %}<li class="date-back active"><a href="{{ back.link }}" style="color:white">&lsaquo; {{ back.title }}</a></li>{% endif %}-->
-    <div style="z-index:0; width: 10%;
-    float: left;" class="input-group date"><input type="text" id="date_hierarchy" readonly="readonly" class="form-control"><span class="input-group-addon"><i
+    <div style="width: 10%;z-index: 0;
+    float: left;" class="input-group date" id="date_hierarchy"><input type="text" readonly="readonly" class="form-control"><span class="input-group-addon"><i
         class="glyphicon glyphicon-th"></i></span></div>
 
     <script>
@@ -35,7 +35,6 @@
                 language: "zh-CN",
                 orientation: "top auto",
                 autoclose: true,
-                todayBtn: true,
                 todayHighlight: true,
             }).on('changeDate', function(data){
                 url = updateQueryStringParameter(url, prefix+'__month', data.date.getMonth()+1);
@@ -48,6 +47,7 @@
                 location.href = url;
                 $("#date_hierarchy").datepicker('hide');
             });
+            $('#date_hierarchy').val()
         })(jQuery);
     </script>
     {% for choice in choices %}
