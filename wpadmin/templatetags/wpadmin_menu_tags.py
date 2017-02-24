@@ -61,6 +61,12 @@ def wpadmin_render_left_menu(context):
             'menu': menu,
             'is_user_allowed': menu.is_user_allowed(context.get('request').user),
         })
+    from cms.models import AdminStaff
+    kefu = AdminStaff.objects.filter(user=context.get('request').user)
+    if kefu.exists():
+        context.update({
+            'kefu': kefu[0],
+        })
     return context
 
 register.inclusion_tag(
@@ -70,6 +76,7 @@ register.inclusion_tag(
 
 def wpadmin_render_menu_top_item(context, item, is_first, is_last):
     item.init_with_context(context)
+
     if item.icon:
         icon = item.icon
     else:
@@ -139,4 +146,3 @@ def gravatar_url(user, size, https=True):
     return url
 
 register.simple_tag(gravatar_url)
-

@@ -1,7 +1,27 @@
 {% load wpadmin_menu_tags i18n %}
+<!--{% load i18n admin_static %}-->
 {% if is_user_allowed and menu.children %}
 	<div id="adminmenuback"></div>
 	<div id="adminmenuwrap">
+
+		<div class="profile clearfix" style="margin-bottom: 6px;">
+			<div class="profile_pic" style="text-align: center">
+				{% if kefu %}
+				<img src="{{ kefu.head_image }}" alt="..." class="img-circle profile_img" style="padding: 1px;">
+			</div>
+			<div class="profile_info" style="padding: 15px 10px 10px">
+				<h2>{{ kefu.nickname }}</h2>
+				<a class="label label-warning" style="color:white;position: absolute;top: 40px;" href="/admin/kefu/{{ kefu.id }}/">查看</a>
+			</div>
+			{% else %}
+                <img src="{% static "img/kefu.jpeg" %}" alt="..." class="img-circle profile_img" style="padding: 1px;">
+		</div>
+		<div class="profile_info" style="padding: 15px 10px 10px">
+			<span>欢迎您</span>
+                <h2>{% firstof user.get_short_name user.get_username %}</h2>
+		</div>
+		{% endif %}
+            </div>
 		<ul id="adminmenu" class="wp-menu" role="navigation">
 
 			<li class="hide-if-no-js wp-menu-top wp-has-submenu wp-menu-not-open wp-no-url wp-menu-tools">
