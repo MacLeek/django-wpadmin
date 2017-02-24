@@ -64,7 +64,7 @@ def wpadmin_render_left_menu(context):
     from cms.models import AdminStaff
     cur_user = context.get('request').user
     if not cur_user.is_anonymous():
-        kefu = AdminStaff.objects.filter()
+        kefu = AdminStaff.objects.filter(user=cur_user)
         if kefu.exists():
             context.update({
                 'kefu': kefu[0],
