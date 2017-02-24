@@ -62,11 +62,13 @@ def wpadmin_render_left_menu(context):
             'is_user_allowed': menu.is_user_allowed(context.get('request').user),
         })
     from cms.models import AdminStaff
-    kefu = AdminStaff.objects.filter(user=context.get('request').user)
-    if kefu.exists():
-        context.update({
-            'kefu': kefu[0],
-        })
+    cur_user = context.get('request').user
+    if not cur_user.is_anonymous():
+        kefu = AdminStaff.objects.filter()
+        if kefu.exists():
+            context.update({
+                'kefu': kefu[0],
+            })
     return context
 
 register.inclusion_tag(
